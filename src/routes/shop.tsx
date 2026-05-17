@@ -36,7 +36,7 @@ function Shop() {
       setCats((c.data ?? []) as CatOpt[]);
       
       const prices = prods.map((x) => x.regular_price).filter(price => !isNaN(price) && price > 0);
-      const max = Math.max(5000000, ...prices);
+      const max = prices.reduce((maxVal, p) => p > maxVal ? p : maxVal, 5000000);
       setMaxPrice(max);
       setFilters((f) => ({ ...f, price: [0, max] }));
     })();
