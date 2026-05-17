@@ -108,15 +108,15 @@ function Home() {
         </div>
 
         {/* Bottom Features Bar - Now as a flex child, naturally at bottom */}
-        <div className="relative z-20 glass-strong border-t border-white/10 py-16 mt-auto hidden lg:block">
-          <div className="container mx-auto px-6 flex justify-center gap-32">
+        <div className="relative z-20 glass-strong border-t border-white/10 py-8 mt-auto hidden lg:block">
+          <div className="container mx-auto px-6 flex justify-center gap-16">
             {[
               { icon: Cpu, label: lang === "ar" ? "أحدث المعالجات" : "Latest CPUs" },
               { icon: Zap, label: lang === "ar" ? "أداء فائق" : "Extreme Performance" },
               { icon: ShieldCheck, label: lang === "ar" ? "ضمان حقيقي" : "Genuine Warranty" },
             ].map((item, i) => (
-              <div key={i} className="flex items-center gap-8 text-3xl font-black uppercase tracking-tight text-white group hover:text-primary-glow transition-all duration-500 cursor-default">
-                <item.icon className="w-12 h-12 text-primary-glow animate-float group-hover:scale-110 transition-transform" />
+              <div key={i} className="flex items-center gap-3 text-base font-black uppercase tracking-wider text-white group hover:text-primary-glow transition-all duration-500 cursor-default">
+                <item.icon className="w-6 h-6 text-primary-glow animate-float group-hover:scale-110 transition-transform" />
                 <span className="drop-shadow-lg">{item.label}</span>
               </div>
             ))}
