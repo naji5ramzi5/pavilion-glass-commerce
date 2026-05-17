@@ -44,6 +44,10 @@ export function FilterSidebar({ filters, onChange, brands, categories, maxPrice 
       <div className="relative">
         <Search className="absolute top-1/2 -translate-y-1/2 start-3 w-4 h-4 text-muted-foreground" />
         <input
+          id="filter-search"
+          name="search"
+          type="search"
+          autoComplete="off"
           value={local.q}
           onChange={(e) => { const v = { ...local, q: e.target.value }; setLocal(v); onChange(v); }}
           placeholder={t("search_placeholder")}
@@ -54,14 +58,14 @@ export function FilterSidebar({ filters, onChange, brands, categories, maxPrice 
       <div className="space-y-2">
         <label className="text-sm font-semibold">{t("price_range")}</label>
         <div className="flex gap-2">
-          <input type="number" value={local.price[0]} min={0} max={local.price[1]}
+          <input id="filter-price-min" name="price_min" type="number" autoComplete="off" value={local.price[0]} min={0} max={local.price[1]}
             onChange={(e) => { const v = { ...local, price: [Number(e.target.value), local.price[1]] as [number, number] }; setLocal(v); onChange(v); }}
             className="flex-1 glass rounded-lg px-2 py-1.5 text-xs bg-transparent outline-none" />
-          <input type="number" value={local.price[1]} min={local.price[0]}
+          <input id="filter-price-max" name="price_max" type="number" autoComplete="off" value={local.price[1]} min={local.price[0]}
             onChange={(e) => { const v = { ...local, price: [local.price[0], Number(e.target.value)] as [number, number] }; setLocal(v); onChange(v); }}
             className="flex-1 glass rounded-lg px-2 py-1.5 text-xs bg-transparent outline-none" />
         </div>
-        <input type="range" min={0} max={maxPrice} step={Math.max(1000, Math.floor(maxPrice / 100))}
+        <input id="filter-price-range" name="price_range" type="range" min={0} max={maxPrice} step={Math.max(1000, Math.floor(maxPrice / 100))}
           value={local.price[1]}
           onChange={(e) => { const v = { ...local, price: [local.price[0], Number(e.target.value)] as [number, number] }; setLocal(v); onChange(v); }}
           className="w-full accent-primary" />
