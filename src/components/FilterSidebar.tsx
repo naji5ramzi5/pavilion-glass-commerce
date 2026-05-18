@@ -32,7 +32,7 @@ export function FilterSidebar({ filters, onChange, brands, categories, maxPrice 
   const childrenOf = (pid: string) => brands.filter((b) => b.parent_id === pid);
 
   return (
-    <aside className="glass-strong rounded-2xl p-5 space-y-6 sticky top-28 self-start">
+    <aside className="glass-strong rounded-2xl p-5 space-y-6 sticky top-28 z-30 self-start">
       <div className="flex items-center justify-between">
         <h3 className="font-bold">{t("filters")}</h3>
         <button onClick={() => onChange({ q: "", brands: [], categories: [], price: [0, maxPrice] })}

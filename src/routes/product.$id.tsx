@@ -92,11 +92,11 @@ function ProductDetails() {
                 add({ id: product.id, name: lang === "ar" ? product.name_ar : product.name_en, price: price, image: product.image }); 
                 cartModal.open(lang === "ar" ? product.name_ar : product.name_en); 
               }}
-                className="flex-1 glass border-white/10 hover:bg-white/10 rounded-2xl h-16 flex items-center justify-center gap-3 font-black uppercase tracking-widest text-xs transition-all active:scale-95 shadow-lg">
+                className="flex-1 glass border-white/10 hover:bg-white/10 rounded-2xl py-4.5 sm:py-5 min-h-[3.5rem] sm:min-h-[4rem] flex items-center justify-center gap-3 font-black uppercase tracking-widest text-xs transition-all active:scale-95 shadow-lg shrink-0">
                 <ShoppingBag className="w-5 h-5 text-primary-glow" /> {t("add_to_cart")}
               </button>
               <button onClick={() => buyNow.open(product)}
-                className="flex-1 bg-gradient-to-r from-primary to-primary-glow text-primary-foreground rounded-2xl h-16 flex items-center justify-center gap-3 font-black uppercase tracking-widest text-xs glow-primary hover:opacity-90 transition-all active:scale-95 shadow-xl">
+                className="flex-1 bg-gradient-to-r from-primary to-primary-glow text-primary-foreground rounded-2xl py-4.5 sm:py-5 min-h-[3.5rem] sm:min-h-[4rem] flex items-center justify-center gap-3 font-black uppercase tracking-widest text-xs glow-primary hover:opacity-90 transition-all active:scale-95 shadow-xl shrink-0">
                 {t("buy_now")}
               </button>
             </div>
