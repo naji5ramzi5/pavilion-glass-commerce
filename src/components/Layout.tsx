@@ -55,7 +55,7 @@ export function Layout({ children }: { children: ReactNode }) {
           </Link>
 
           {/* Nav */}
-          <nav className="hidden lg:flex items-center gap-2 flex-1 justify-center mx-10">
+          <nav className="hidden xl:flex items-center gap-2 flex-1 justify-center mx-10">
             {nav.map((n) => {
               const active = path === n.to;
               return (
@@ -119,7 +119,7 @@ export function Layout({ children }: { children: ReactNode }) {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all lg:hidden text-white cursor-pointer shrink-0"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all xl:hidden text-white cursor-pointer shrink-0"
             >
               {isMobileMenuOpen ? <X className="w-4 h-4 sm:w-5 sm:h-5" /> : <Menu className="w-4 h-4 sm:w-5 sm:h-5" />}
             </button>
@@ -227,11 +227,11 @@ export function Layout({ children }: { children: ReactNode }) {
         <>
           {/* Backdrop */}
           <div 
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden animate-fade-in"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 xl:hidden animate-fade-in"
             onClick={() => setIsMobileMenuOpen(false)}
           />
           {/* Drawer Panel */}
-          <aside className="fixed inset-y-0 start-0 z-50 w-72 glass-strong flex flex-col transition-transform duration-300 lg:hidden animate-slide-right">
+          <aside className="fixed inset-y-0 start-0 z-50 w-72 glass-strong flex flex-col transition-transform duration-300 xl:hidden animate-slide-right">
             <div className="flex items-center justify-between p-5 border-b border-white/10">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center glow-primary-sm">

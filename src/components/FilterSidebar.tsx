@@ -18,9 +18,11 @@ interface Props {
   brands: BrandOpt[];
   categories: CatOpt[];
   maxPrice: number;
+  isMobile?: boolean;
+  onClose?: () => void;
 }
 
-export function FilterSidebar({ filters, onChange, brands, categories, maxPrice }: Props) {
+export function FilterSidebar({ filters, onChange, brands, categories, maxPrice, isMobile, onClose }: Props) {
   const { t, lang } = useI18n();
   const [local, setLocal] = useState(filters);
   useEffect(() => setLocal(filters), [filters]);
@@ -112,6 +114,15 @@ export function FilterSidebar({ filters, onChange, brands, categories, maxPrice 
           ))}
         </div>
       </div>
+
+      {isMobile && onClose && (
+        <button
+          onClick={onClose}
+          className="w-full bg-gradient-to-r from-primary to-primary-glow text-primary-foreground py-3.5 rounded-xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 shadow-lg shrink-0 mt-4"
+        >
+          {lang === "ar" ? "تطبيق الفلاتر" : "Apply Filters"}
+        </button>
+      )}
     </aside>
   );
 }

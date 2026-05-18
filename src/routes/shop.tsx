@@ -5,6 +5,7 @@ import { ProductCard, type Product } from "@/components/ProductCard";
 import { FilterSidebar, type FilterState, type BrandOpt, type CatOpt } from "@/components/FilterSidebar";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
+import { SlidersHorizontal, X } from "lucide-react";
 
 export const Route = createFileRoute("/shop")({
   head: () => ({ meta: [{ title: "المتجر — Pavilion" }, { name: "description", content: "تصفح اللابتوبات وقطع الغيار" }] }),
@@ -18,6 +19,7 @@ function Shop() {
   const [cats, setCats] = useState<CatOpt[]>([]);
   const [maxPrice, setMaxPrice] = useState(5000000);
   const [filters, setFilters] = useState<FilterState>({ q: "", brands: [], categories: [], price: [0, 5000000] });
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -61,11 +63,24 @@ function Shop() {
   return (
     <Layout>
       <div className="grid lg:grid-cols-[280px_1fr] gap-5">
-        <FilterSidebar filters={filters} onChange={setFilters} brands={brands} categories={cats} maxPrice={maxPrice} />
+        {/* Desktop Sidebar */}
+        <div className="hidden lg:block">
+          <FilterSidebar filters={filters} onChange={setFilters} brands={brands} categories={cats} maxPrice={maxPrice} />
+        </div>
+
         <div>
-          <div className="glass rounded-2xl px-4 py-3 mb-4 text-sm flex items-center justify-between">
-            <span>{filtered.length} {lang === "ar" ? "منتج" : "products"}</span>
+          <div className="glass rounded-2xl px-4 py-3 mb-4 text-sm flex items-center justify-between gap-4">
+            <span className="font-bold">{filtered.length} {lang === "ar" ? "منتج" : "products"}</span>
+            
+            {/* Mobile Filter Button */}
+            <button
+              onClick={() => setIsFilterOpen(true)}
+              className="lg:hidden flex items-center gap-2 bg-primary/10 border border-primary/20 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest text-primary-glow hover:bg-primary/20 active:scale-95 transition-all cursor-pointer"
+            >
+              <SlidersHorizontal className="w-3.5 h-3.5" /> {lang === "ar" ? "الفلاتر" : "Filters"}
+            </button>
           </div>
+
           {filtered.length === 0 ? (
             <div className="glass rounded-2xl py-20 text-center text-muted-foreground">{t("no_results")}</div>
           ) : (
@@ -75,6 +90,40 @@ function Shop() {
           )}
         </div>
       </div>
+
+      {/* Mobile Filter Drawer Overlay */}
+      {isFilterOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden flex justify-end">
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
+            onClick={() => setIsFilterOpen(false)}
+          />
+          
+          {/* Drawer Content */}
+          <div className="relative w-80 max-w-[85vw] h-full bg-background border-s border-white/5 shadow-2xl flex flex-col p-6 animate-in slide-in-from-left duration-300 overflow-y-auto">
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
+              <h3 className="font-black text-lg gradient-text">{lang === "ar" ? "تصفية المنتجات" : "Filter Products"}</h3>
+              <button 
+                onClick={() => setIsFilterOpen(false)}
+                className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10 text-muted-foreground hover:text-foreground transition-all cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            
+            <FilterSidebar 
+              filters={filters} 
+              onChange={setFilters} 
+              brands={brands} 
+              categories={cats} 
+              maxPrice={maxPrice}
+              isMobile={true}
+              onClose={() => setIsFilterOpen(false)}
+            />
+          </div>
+        </div>
+      )}
     </Layout>
   );
 }
