@@ -424,7 +424,7 @@ function AdminDashboard() {
             </div>
             <h1 className="text-3xl font-extrabold tracking-tight"><span className="gradient-text">Admin Login</span></h1>
           </div>
-          <form onSubmit={handleLogin} className="glass-strong rounded-3xl p-8 shadow-2xl border border-white/5 space-y-6">
+          <form onSubmit={handleLogin} className="glass-modal rounded-3xl p-8 shadow-2xl border border-white/5 space-y-6">
             <div className="space-y-4">
               <div className="space-y-2">
                 <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest ps-1">Email</label>
@@ -785,7 +785,7 @@ function AdminDashboard() {
       {/* Banner Modal */}
       {editingBanner && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in" onMouseDown={() => setEditingBanner(null)}>
-          <div className="glass-strong rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl animate-slide-up" onMouseDown={(e) => e.stopPropagation()}>
+          <div className="glass-modal rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl animate-slide-up" onMouseDown={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6">
               <h3 className="font-extrabold text-xl gradient-text">{editingBanner.id ? t("edit") : (lang === "ar" ? "إضافة بنر" : "Add Banner")}</h3>
               <button onClick={() => setEditingBanner(null)} className="icon-btn"><X className="w-4 h-4" /></button>
@@ -888,7 +888,7 @@ function AdminDashboard() {
       {/* Category Modal */}
       {editingCategory && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in" onMouseDown={() => setEditingCategory(null)}>
-          <div className="glass-strong rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl animate-slide-up" onMouseDown={(e) => e.stopPropagation()}>
+          <div className="glass-modal rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl animate-slide-up" onMouseDown={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6">
               <h3 className="font-extrabold text-xl gradient-text">{editingCategory.id ? t("edit") : (lang === "ar" ? "إضافة قسم" : "Add Category")}</h3>
               <button onClick={() => setEditingCategory(null)} className="icon-btn"><X className="w-4 h-4" /></button>
@@ -929,7 +929,7 @@ function AdminDashboard() {
       {/* Product Modal */}
       {editing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in" onMouseDown={() => setEditing(null)}>
-          <div className="glass-strong rounded-3xl p-6 sm:p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl custom-scrollbar animate-slide-up" onMouseDown={(e) => e.stopPropagation()}>
+          <div className="glass-modal rounded-3xl p-6 sm:p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl custom-scrollbar animate-slide-up" onMouseDown={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6 sticky top-0 bg-background/5 backdrop-blur-xl -mx-6 -mt-6 px-6 py-4 border-b border-[oklch(1_0_0/10%)] z-10">
               <h3 className="font-extrabold text-xl gradient-text">{editing.id ? t("edit") : t("add_product")}</h3>
               <button onClick={() => setEditing(null)} className="icon-btn"><X className="w-4 h-4" /></button>
@@ -1001,7 +1001,7 @@ function AdminDashboard() {
       {/* Order Detail Modal */}
       {viewingOrder && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in" onMouseDown={() => setViewingOrder(null)}>
-          <div className="glass-strong rounded-3xl p-6 sm:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl custom-scrollbar animate-slide-up" onMouseDown={(e) => e.stopPropagation()}>
+          <div className="glass-modal rounded-3xl p-6 sm:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl custom-scrollbar animate-slide-up" onMouseDown={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="font-extrabold text-xl gradient-text">{lang === "ar" ? "تفاصيل الطلب" : "Order Details"}</h3>
@@ -1129,7 +1129,7 @@ function AdminDashboard() {
       {/* Brand Modal */}
       {editingBrand && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
-          <div className="glass-strong rounded-3xl p-8 max-w-lg w-full shadow-2xl space-y-6">
+          <div className="glass-modal rounded-3xl p-8 max-w-lg w-full shadow-2xl space-y-6" onMouseDown={(e) => e.stopPropagation()}>
             <h3 className="font-bold text-xl">{editingBrand.id ? (lang === "ar" ? "تعديل ماركة" : "Edit Brand") : (lang === "ar" ? "إضافة ماركة" : "Add Brand")}</h3>
             <div className="space-y-4">
               <Field label={lang === "ar" ? "الاسم بالعربي" : "Name (AR)"} name="brand-name-ar" value={editingBrand.name_ar} onChange={(v) => setEditingBrand({ ...editingBrand, name_ar: v })} />
