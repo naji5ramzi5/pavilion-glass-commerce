@@ -12,45 +12,35 @@ export const Route = createFileRoute("/shop")({
   component: Shop,
 });
 
+import { useDataStore } from "@/lib/data-store";
+
 function Shop() {
   const { t, lang } = useI18n();
-  const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [brands, setBrands] = useState<BrandOpt[]>([]);
-  const [cats, setCats] = useState<CatOpt[]>([]);
+  const { products: storeProducts, brands, categories: cats, loadingShop: loading, fetchShopData } = useDataStore();
   const [maxPrice, setMaxPrice] = useState(5000000);
   const [filters, setFilters] = useState<FilterState>({ q: "", brands: [], categories: [], price: [0, 5000000] });
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+  const products = useMemo(() => {
+    return storeProducts.map(x => ({
+      ...x,
+      regular_price: Number(x.regular_price) || 0,
+      sale_price: x.sale_price ? (Number(x.sale_price) || null) : null
+    })) as Product[];
+  }, [storeProducts]);
+
   useEffect(() => {
-    (async () => {
-      setLoading(true);
-      try {
-        const [p, b, c] = await Promise.all([
-          supabase.from("products").select("*").order("created_at", { ascending: false }),
-          supabase.from("brands").select("id,name_ar,name_en,parent_id").order("name_en"),
-          supabase.from("categories").select("id,name_ar,name_en").order("name_en"),
-        ]);
-        const prods = (p.data ?? []).map(x => ({
-          ...x,
-          regular_price: Number(x.regular_price) || 0,
-          sale_price: x.sale_price ? (Number(x.sale_price) || null) : null
-        })) as Product[];
-        setProducts(prods);
-        setBrands((b.data ?? []) as BrandOpt[]);
-        setCats((c.data ?? []) as CatOpt[]);
-        
-        const prices = prods.map((x) => x.regular_price).filter(price => !isNaN(price) && price > 0);
-        const max = prices.reduce((maxVal, p) => p > maxVal ? p : maxVal, 5000000);
-        setMaxPrice(max);
-        setFilters((f) => ({ ...f, price: [0, max] }));
-      } catch (err) {
-        console.error("Shop load error:", err);
-      } finally {
-        setLoading(false);
-      }
-    })();
+    fetchShopData();
   }, []);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      const prices = products.map((x) => x.regular_price).filter(price => !isNaN(price) && price > 0);
+      const max = prices.reduce((maxVal, p) => p > maxVal ? p : maxVal, 5000000);
+      setMaxPrice(max);
+      setFilters((f) => ({ ...f, price: [0, max] }));
+    }
+  }, [products]);
 
   const filtered = useMemo(() => {
     const q = filters.q.trim().toLowerCase();

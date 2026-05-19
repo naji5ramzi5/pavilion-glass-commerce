@@ -24,22 +24,17 @@ import catLaptops from "@/assets/cat-laptops.png";
 import catParts from "@/assets/cat-parts.png";
 import catAccs from "@/assets/cat-accs.png";
 
+import { useDataStore } from "@/lib/data-store";
+
 export const Route = createFileRoute("/")({ component: Home });
 
 function Home() {
   const { t, lang, dir } = useI18n();
-  const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
-  const [banners, setBanners] = useState<any[]>([]);
+  const { products, categories, banners, fetchHomeData } = useDataStore();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
-    supabase.from("products").select("*").order("created_at", { ascending: false }).limit(8)
-      .then(({ data }) => setProducts((data ?? []) as Product[]));
-    supabase.from("categories").select("*").limit(6)
-      .then(({ data }) => setCategories(data ?? []));
-    supabase.from("banners").select("*").eq("active", true).order("order_index", { ascending: true })
-      .then(({ data }) => setBanners(data ?? []));
+    fetchHomeData();
     supabase.from("visits").insert({ path: "/" });
   }, []);
 
