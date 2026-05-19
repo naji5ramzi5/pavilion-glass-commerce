@@ -169,6 +169,22 @@
     border: 1px solid oklch(1 0 0 / 18%);
   }
 
+  .glass-modal {
+    background: #0d0822;
+    background: linear-gradient(135deg, rgba(13, 8, 34, 0.98), rgba(9, 5, 23, 0.99));
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8);
+  }
+
+  :root.light .glass-modal {
+    background: #ffffff;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(245, 245, 248, 0.99));
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.15);
+  }
+
   /* ─── Glow ──────────────────────────────────────── */
   .glow-primary { box-shadow: var(--shadow-glow); }
   .glow-primary-sm { box-shadow: var(--shadow-glow-sm); }

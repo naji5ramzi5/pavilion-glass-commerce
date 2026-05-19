@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { AdminLayout } from "@/components/AdminLayout";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
@@ -41,6 +41,27 @@ function AdminDashboard() {
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [orderDateFilter, setOrderDateFilter] = useState<"all" | "today" | "week" | "month">("all");
+
+  const filteredOrders = useMemo(() => {
+    if (orderDateFilter === "all") return orders;
+    const now = new Date();
+    return orders.filter((o) => {
+      const d = new Date(o.created_at);
+      if (orderDateFilter === "today") {
+        return d.toDateString() === now.toDateString();
+      } else if (orderDateFilter === "week") {
+        const diffTime = Math.abs(now.getTime() - d.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays <= 7;
+      } else if (orderDateFilter === "month") {
+        const diffTime = Math.abs(now.getTime() - d.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays <= 30;
+      }
+      return true;
+    });
+  }, [orders, orderDateFilter]);
 
   useEffect(() => {
     const auth = localStorage.getItem("isAdmin") === "true";
@@ -613,9 +634,23 @@ function AdminDashboard() {
       {/* Orders Tab */}
       {tab === "orders" && (
         <div className="glass-strong rounded-2xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-[oklch(1_0_0/10%)] flex items-center justify-between">
-            <h3 className="font-bold">{lang === "ar" ? "إدارة الطلبات" : "Manage Orders"}</h3>
-            <span className="badge badge-warning">{orders.filter(o => o.status === "pending").length} {lang === "ar" ? "معلق" : "pending"}</span>
+          <div className="px-6 py-4 border-b border-[oklch(1_0_0/10%)] flex flex-wrap items-center justify-between gap-4">
+            <h3 className="font-bold flex items-center gap-3">
+              {lang === "ar" ? "إدارة الطلبات" : "Manage Orders"}
+              <span className="badge badge-warning">{filteredOrders.filter(o => o.status === "pending").length} {lang === "ar" ? "معلق" : "pending"}</span>
+            </h3>
+            <div className="flex items-center gap-2">
+              <select
+                value={orderDateFilter}
+                onChange={(e) => setOrderDateFilter(e.target.value as any)}
+                className="field-input !h-9 !px-3 !text-xs !rounded-lg bg-black/20"
+              >
+                <option value="all">{lang === "ar" ? "كل الأوقات" : "All Time"}</option>
+                <option value="today">{lang === "ar" ? "اليوم" : "Today"}</option>
+                <option value="week">{lang === "ar" ? "هذا الأسبوع" : "This Week"}</option>
+                <option value="month">{lang === "ar" ? "هذا الشهر" : "This Month"}</option>
+              </select>
+            </div>
           </div>
           <table className="data-table">
             <thead><tr>
@@ -627,7 +662,7 @@ function AdminDashboard() {
               <th className="text-end">{lang === "ar" ? "إجراءات" : "Actions"}</th>
             </tr></thead>
             <tbody>
-              {orders.map((o) => (
+              {filteredOrders.map((o) => (
                 <tr key={o.id}>
                   <td>
                     <div className="flex items-center gap-2.5">
@@ -660,7 +695,7 @@ function AdminDashboard() {
                   </td>
                 </tr>
               ))}
-              {orders.length === 0 && (
+              {filteredOrders.length === 0 && (
                 <tr><td colSpan={5}>
                   <div className="py-16 text-center">
                     <div className="text-4xl mb-2">📭</div>
