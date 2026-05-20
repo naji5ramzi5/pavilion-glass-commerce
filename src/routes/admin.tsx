@@ -662,18 +662,18 @@ function AdminDashboard() {
       {/* Products Tab */}
       {tab === "products" && (
         <div className="space-y-4">
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-3 flex-wrap">
             <button
               onClick={() => setEditing({ name_ar: "", name_en: "", regular_price: 0, stock: 0, in_stock: true })}
-              className="btn-primary gap-2">
+              className="btn-primary gap-2 !h-10 !px-4">
               <Plus className="w-4 h-4" /> {t("add_product")}
             </button>
             <button
               onClick={exportProductsCSV}
-              className="btn-secondary gap-2 whitespace-nowrap">
+              className="btn-secondary gap-2 !h-10 !px-4 whitespace-nowrap inline-flex items-center justify-center cursor-pointer">
               <Package className="w-4 h-4" /> {lang === "ar" ? "تصدير إكسل" : "Export Excel"}
             </button>
-            <label className="btn-ghost gap-2 cursor-pointer whitespace-nowrap">
+            <label className="btn-secondary gap-2 !h-10 !px-4 whitespace-nowrap inline-flex items-center justify-center cursor-pointer">
               <Package className="w-4 h-4" />
               {lang === "ar" ? "استيراد إكسل" : "Import Excel"}
               <input type="file" accept=".csv" onChange={handleImport} className="hidden" />
