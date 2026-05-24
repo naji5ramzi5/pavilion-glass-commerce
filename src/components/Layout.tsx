@@ -16,7 +16,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const cartCount = useCart((s) => s.count());
 
   const [theme, setTheme] = useState<"dark" | "light">(() => {
-    return (localStorage.getItem("theme") as "dark" | "light") || "dark";
+    return (localStorage.getItem("theme") as "dark" | "light") || "light";
   });
 
   useEffect(() => {
